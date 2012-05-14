@@ -1,0 +1,62 @@
+= form_for @ticket do |f|
+  -if @ticket.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ticket.errors.count, "error")} prohibited this ticket from being saved:"
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+
+  %span.top 
+    %div.label
+      = f.label :name
+      %b
+        = @ticket.name
+  %span.top 
+    %div.label
+      = f.label :email
+      %b
+        = @ticket.email
+  %div.sub
+  %span.top 
+    .field
+      %div.label       
+        = f.label :department_id
+      = f.select :department_id, options_from_collection_for_select(Department.all,"id", "depname",@ticket.department_id) 
+  %span.top 
+    .field
+      %div.label       
+        = f.label :status_id
+      = f.select :status_id, options_from_collection_for_select(Status.all,"id", "statusname",@ticket.status_id) 
+  %span.top 
+    .field
+      %div.label       
+        = f.label :owner_id
+      = f.select :owner_id, options_from_collection_for_select(Owner.all,"id", "ownername",@ticket.owner_id) 
+
+
+
+  -#%span.top 
+    -#.field
+      -#%div.label       
+        -#= f.label :department_id
+      -#= f.select :department_id, options_from_collection_for_select(User.all,"id", "ownername") 
+
+
+  %div.request   
+    %span
+      %pre.requestbody
+        = @ticket.requestbody ? @ticket.requestbody.html_safe : @ticket.requestbody
+        -#= @ticket.requestbody
+    %br/
+    %br/
+    %br/    
+    %div.request   
+    .field
+      %div.label
+        = f.label :Reply
+      = f.text_area :requestbody,  :value => "", :maxlength => 240, :cols => 77, :rows => 10     
+        
+        
+        
+  .actions
+    = f.submit 'Send'

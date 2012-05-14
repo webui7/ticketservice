@@ -1,0 +1,19 @@
+%h1 Listing departments
+
+%table
+  %tr
+    %th Depname
+    %th
+    %th
+    %th
+
+  - @departments.each do |department|
+    %tr
+      %td= department.depname
+      %td= link_to 'Show', department
+      %td= link_to 'Edit', edit_department_path(department)
+      %td= link_to 'Destroy', department, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Department', new_department_path

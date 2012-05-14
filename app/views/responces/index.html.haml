@@ -1,0 +1,23 @@
+%h1 Listing responces
+
+%table
+  %tr
+    %th Content
+    %th Ticket
+    %th Responce
+    %th
+    %th
+    %th
+
+  - @responces.each do |responce|
+    %tr
+      %td= responce.content
+      %td= responce.ticket_id
+      %td= responce.responce_id
+      %td= link_to 'Show', responce
+      %td= link_to 'Edit', edit_responce_path(responce)
+      %td= link_to 'Destroy', responce, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Responce', new_responce_path

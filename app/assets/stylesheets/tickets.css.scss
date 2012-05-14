@@ -1,0 +1,82 @@
+// Place all the styles related to the Tickets controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.top{
+  float:left;
+  display:block;
+  padding: 5px;
+}
+
+.request{
+  clear:both;
+}
+
+.listing_tickets{
+  border-spacing:30px;
+}
+
+
+.status_p{
+  color:red;
+  font-weight:bold;
+}
+.requestbody{
+  border:1px solid #cccccc;
+  
+  background:#eeeeee;
+  margin:10px 0 0 0;
+  width:550px;
+  
+}
+
+.subject_all{
+  border:1px solid #cccccc; 
+  background:#eeeeee;
+  margin:10px 0 0 0;
+  width:270px;
+  
+}
+
+
+.subject{
+  clear:both;
+}
+
+.subj{
+  color:blue;
+}
+
+.req{
+  background:#cccccc;
+  width:350px;  
+  border:1px solid #bbbbbb;
+  
+}
+
+.req_title{
+  color:blue;
+
+}
+.sub{
+  clear:both;
+}
+
+.ticket_reference{
+  color:blue;
+  font-size:18px;
+}
+
+.try_again{
+  color:red;
+  display:block;
+  font-weight:bold;
+  font-size:20px;
+  margin:10px 0 10px 100px;  
+}
+
+.statusname{
+  color:blue;
+  font-weight:bold;
+  font-size:20px;
+  margin:10px 0 10px 0px;    
+}

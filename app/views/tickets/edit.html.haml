@@ -1,0 +1,11 @@
+%h1 Editing ticket
+%span.ticket_reference
+  =@ticket.reference
+%br/  
+%span.sub  
+  SUBJECT
+  %b
+    = @ticket.subject 
+= render 'form_for_answer'
+
+= link_to 'Back', tickets_path

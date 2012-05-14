@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Content:
+  = @responce.content
+%p
+  %b Ticket:
+  = @responce.ticket_id
+%p
+  %b Responce:
+  = @responce.responce_id
+
+= link_to 'Edit', edit_responce_path(@responce)
+\|
+= link_to 'Back', responces_path

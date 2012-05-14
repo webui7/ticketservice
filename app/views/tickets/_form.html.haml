@@ -1,0 +1,36 @@
+= form_for @ticket do |f|
+  -if @ticket.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ticket.errors.count, "error")} prohibited this ticket from being saved:"
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+
+  %span.top 
+    .field
+      %div.label
+        = f.label :name
+      = f.text_field :name, :size => 10
+  %span.top 
+    .field
+      %div.label
+        = f.label :email
+      = f.text_field :email, :size => 10
+  %span.top 
+    .field
+      %div.label       
+        = f.label :department_id
+      = f.select :department_id, options_from_collection_for_select(@departments,"id", "depname") 
+  %div.subject   
+    .field
+      %div.label
+        = f.label :subject
+      = f.text_field :subject, :size =>39   
+  %div.request   
+    .field
+      %div.label
+        = f.label :requestbody
+      = f.text_area :requestbody,  :maxlength => 240, :cols => 77, :rows => 10
+
+  .actions
+    = f.submit 'Send'

@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Ownername:
+  = @owner.ownername
+
+= link_to 'Edit', edit_owner_path(@owner)
+\|
+= link_to 'Back', owners_path

@@ -1,0 +1,29 @@
+%p#notice= notice
+
+%p
+  %b Reference:
+  = @ticket.reference
+%p
+  %b Subject:
+  %span.subj
+    = @ticket.subject  
+  
+%p
+  %b Name:
+  = @ticket.name
+%p
+  %b Email:
+  = @ticket.email
+%p
+  %b Department:
+  = @ticket.department.depname
+%p
+  %b Status:
+  %span.status
+    = @ticket.status.statusname  
+  
+%pre.requestbody
+  = @ticket.requestbody ? @ticket.requestbody.html_safe : @ticket.requestbody
+
+
+= link_to 'New Ticket', "new"
