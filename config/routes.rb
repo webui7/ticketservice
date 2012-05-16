@@ -10,7 +10,7 @@ Ticketservice::Application.routes.draw do
     resources :tickets
   end 
 
-
+  root :to => redirect("/tickets/new/")
 
   resources :tickets do
     resources :departments

@@ -19,7 +19,7 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: webui_100matco47
-  username: webui_100matco47
-  password: XEV93HiF
+  database: webui_rails11
+  username: webui_rails11
+  password: h3KgVjKR
   host: mysql0.locum.ru

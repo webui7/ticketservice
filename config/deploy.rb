@@ -1,91 +1,43 @@
-require 'bundler/capistrano'
+# У вас должна быть настроена авторизация ssh по сертификатам
 
-# В rails 3 по умолчанию включена функция assets pipelining,
-# которая позволяет значительно уменьшить размер статических
-# файлов css и js.
-# Эта строка автоматически запускает процесс подготовки
-# сжатых файлов статики при деплое.
-# Если вы не используете assets pipelining в своем проекте,
-# или у вас старая версия rails, закомментируйте эту строку.
-#load 'deploy/assets'
+set :application, "rails"
 
-# Для удобства работы мы рекомендуем вам настроить авторизацию
-# SSH по ключу. При работе capistrano будет использоваться
-# ssh-agent, который предоставляет возможность пробрасывать
-# авторизацию на другие хосты.
-# Если вы не используете авторизацию SSH по ключам И ssh-agent,
-# закомментируйте эту опцию.
-ssh_options[:forward_agent] = true
-
-# Имя вашего проекта в панели управления.
-# Не меняйте это значение без необходимости, оно используется дальше.
-set :application,     "rails"
-
-# Сервер размещения проекта.
-set :deploy_server,   "lithium.locum.ru"
-
-# Не включать в поставку разработческие инструменты и пакеты тестирования.
-set :bundle_without,  [:development, :test]
-
-set :user,            "hosting_webui"
-set :login,           "webui"
-set :use_sudo,        false
-set :deploy_to,       "/home/#{user}/projects/#{application}"
-set :unicorn_conf,    "/etc/unicorn/#{application}.#{login}.rb"
-set :unicorn_pid,     "/var/run/unicorn/#{application}.#{login}.pid"
-set :bundle_dir,      File.join(fetch(:shared_path), 'gems')
-role :web,            deploy_server
-role :app,            deploy_server
-role :db,             deploy_server, :primary => true
-
-
-# Следующие строки необходимы, т.к. ваш проект использует rvm.
-set :rvm_ruby_string, "1.9.2"
-set :rake,            "rvm use #{rvm_ruby_string} do bundle exec rake" 
-set :bundle_cmd,      "rvm use #{rvm_ruby_string} do bundle"
-
-
-# Настройка системы контроля версий и репозитария,
-# по умолчанию - git, если используется иная система версий,
-# нужно изменить значение scm.
+# настройка системы контроля версий и репозитария, по умолчанию - git, если используется иная система версий, нужно изменить значение scm
 set :scm, :git
 
-set :repository,  "~/projects//ticketservice"
+set :repository,  "~/projects/ticketservice"
 set :deploy_via, :copy
-set :user, "hosting_webui"
+set :user, "XXXXXXXXX"
 set :use_sudo, false
+set :deploy_to, "/home/hosting_webui/projects/XXXXXXXXXX"
+
+
+role :web, "XXXXXXXX.XXXXX.XX"   # Your HTTP server, Apache/etc
+role :app, "XXXXXXXX.XXXXX.XX"   # This may be the same as your `Web` server
+role :db,  "XXXXXXXX.XXXXX.XX", :primary => true # This is where Rails migrations will run
+
+# эта секция для того, чтобы вы не хранили доступ к базе в системе контроля версий. Поместите dayabase.yml в shared,
+# чтобы он копировался в нужный путь при каждом выкладывании новой версии кода
+# так лучше с точки зрения безопасности, но если не хотите - прсото закомментируйте этот таск
+set :default_environment, {
+ 'PATH' => "/sbin:/bin:/usr/sbin:/usr/bin:/usr/games:/usr/local/sbin:/usr/local/bin:/usr/X11R6/bin:/$HOME/.gem/ruby/1.8/bin:/var/lib/gems/1.8/bin:/var/lib/gems/1.9.1/gems:/shared/gems/ruby/1.9.1/bin:/home/hosting_webui/.gem/ruby/1.8/bin:/$HOME/projects/bookmart/vendor/gems/ruby/1.9.1/bin:/home/hosting_webui/.gem/ruby/1.9.1/bin:/home/hosting_webui/.gem/ruby/1.9.1/gems"
+}
+
+# Если хотите поместить конфиг в shared и не хранить его в системе контроя версий - раскомментируйте следующие строки
+
+#after "deploy:update_code", :copy_database_config
+
+#task :copy_database_config, roles => :app do
+#  db_config = "#{shared_path}/database.yml"
+#  run "cp #{db_config} #{release_path}/config/database.yml"
+#end
+
+set :unicorn_conf, "/etc/unicorn/rails.webui.rb"
+set :unicorn_pid, "/var/run/unicorn/rails.webui.pid"
 
 
 
-
-# Предполагается, что вы размещаете репозиторий Git в вашем
-# домашнем каталоге в подкаталоге git/<имя проекта>.git.
-# Подробнее о создании репозитория читайте в нашем блоге
-# http://locum.ru/blog/hosting/git-on-locum
-#set :repository,      "ssh://#{user}@#{deploy_server}/home/#{user}/git/#{application}.git"
-
-## Если ваш репозиторий в GitHub, используйте такую конфигурацию
-# set :repository,    "git@github.com:username/project.git"
-
-## Чтобы не хранить database.yml в системе контроля версий, поместите
-## dayabase.yml в shared-каталог проекта на сервере и раскомментируйте
-## следующие строки.
-
-# after "deploy:update_code", :copy_database_config
-# task :copy_database_config, roles => :app do
-#   db_config = "#{shared_path}/database.yml"
-#   run "cp #{db_config} #{release_path}/config/database.yml"
-# end
-
-## --- Ниже этого места ничего менять скорее всего не нужно ---
-
-before 'deploy:finalize_update', 'set_current_release'
-task :set_current_release, :roles => :app do
-    set :current_release, latest_release
-end
-
-
-  set :unicorn_start_cmd, "(cd #{deploy_to}/current; rvm use #{rvm_ruby_string} do bundle exec unicorn_rails -Dc #{unicorn_conf})"
+  set :unicorn_start_cmd, "(cd #{deploy_to}/current; rvm use ruby-1.9.2-p290 do bundle exec unicorn_rails -Dc #{unicorn_conf})"
 
 
 
